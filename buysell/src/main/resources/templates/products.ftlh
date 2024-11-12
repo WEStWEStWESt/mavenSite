@@ -3,6 +3,8 @@
 <head>
     <title>BUYSELL</title>
 <body>
-HELLO, BUYSELL
+<h1>BUYSELL</h1><hr>
+<h4>Товары отовсюду !</h4>
+<#list products as product></#list>
 </body>
 </html>
