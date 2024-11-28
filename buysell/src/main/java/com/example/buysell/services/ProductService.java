@@ -6,6 +6,7 @@ import com.example.buysell.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -28,6 +29,9 @@ public class ProductService {
         Image image1;
         Image image2;
         Image image3;
+        if (file1.isEmpty()) {
+            throw new RuntimeException("Нихуя нет в первом файле");
+        }
         if (file1.getSize() != 0) {
             image1 = toImageEntity(file1);
             image1.setPreviewImage(true);
@@ -44,6 +48,9 @@ public class ProductService {
 
         log.info("Saving new Product. Title: {}; Author: {}", product.getTitle(), product.getAuthor());
         Product productFromDb = productRepository.save(product);
+        if (CollectionUtils.isEmpty(productFromDb.getImages())) {
+            return;
+        }
         productFromDb.setPreviewImageId(productFromDb.getImages().getFirst().getId()); //  ...get(0).getId();  ????????????
         productRepository.save(product);
     }

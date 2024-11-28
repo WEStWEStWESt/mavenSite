@@ -3,8 +3,10 @@ package com.example.buysell.controllers;
 import com.example.buysell.models.Product;
 import com.example.buysell.services.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,9 +36,9 @@ public class ProductController {
     }
 
     @PostMapping("/product/create")
-    public String createProduct(@RequestParam("file1") MultipartFile file1,
-                                @RequestParam("file2") MultipartFile file2,
-                                @RequestParam("file3") MultipartFile file3,Product product) throws IOException {
+    public String createProduct(@RequestParam(value = "file1") MultipartFile file1,
+                                @RequestParam(value = "file2", required = false) MultipartFile file2,
+                                @RequestParam(value = "file3", required = false) MultipartFile file3,Product product) throws IOException {
         productService.saveProduct(product, file1, file2, file3);
         return "redirect:/";
     }
@@ -44,5 +46,10 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return "redirect:/";
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
