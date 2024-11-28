@@ -30,7 +30,7 @@ public class ProductService {
         Image image2;
         Image image3;
         if (file1.isEmpty()) {
-            throw new RuntimeException("Нихуя нет в первом файле");
+            throw new RuntimeException("Ни*уя нет в первом файле");
         }
         if (file1.getSize() != 0) {
             image1 = toImageEntity(file1);

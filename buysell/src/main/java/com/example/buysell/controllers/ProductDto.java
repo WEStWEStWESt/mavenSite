@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class ProductDto {
 
-    @NotNull(message = "Нихуя не нашел")
     private MultipartFile file1;
 
     private MultipartFile file2;
